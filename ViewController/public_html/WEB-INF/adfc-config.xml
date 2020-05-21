@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<adfc-config xmlns="http://xmlns.oracle.com/adf/controller" version="1.2">
+  <view id="CreatePG">
+    <page>/CreatePG.jspx</page>
+  </view>
+  <view id="SearchPG">
+    <page>/SearchPG.jspx</page>
+    <input-page-parameter>
+      <from-value>#{param.ParamOrgId}</from-value>
+      <to-value>#{viewScope.OrgId}</to-value>
+    </input-page-parameter>
+    <input-page-parameter>
+      <from-value>#{param.ParamUserId}</from-value>
+      <to-value>#{viewScope.UserId}</to-value>
+    </input-page-parameter>
+    <input-page-parameter>
+      <from-value>#{param.ParamRespId}</from-value>
+      <to-value>#{viewScope.RespId}</to-value>
+    </input-page-parameter>
+    <input-page-parameter>
+      <from-value>#{param.ParamRespAppId}</from-value>
+      <to-value>#{viewScope.RespAppId}</to-value>
+    </input-page-parameter>
+  </view>
+  <view id="View">
+    <page>/View.jspx</page>
+  </view>
+  <control-flow-rule id="__1">
+    <from-activity-id id="__2">SearchPG</from-activity-id>
+    <control-flow-case id="__4">
+      <from-outcome id="__5">goto create</from-outcome>
+      <to-activity-id id="__3">CreatePG</to-activity-id>
+    </control-flow-case>
+    <control-flow-case id="__35">
+      <from-outcome id="__37">*gotoView</from-outcome>
+      <to-activity-id id="__36">View</to-activity-id>
+    </control-flow-case>
+  </control-flow-rule>
+  <control-flow-rule id="__6">
+    <from-activity-id id="__7">CreatePG</from-activity-id>
+    <control-flow-case id="__8">
+      <from-outcome id="__10">*back to search</from-outcome>
+      <to-activity-id id="__9">SearchPG</to-activity-id>
+    </control-flow-case>
+  </control-flow-rule>
+  <control-flow-rule id="__38">
+    <from-activity-id id="__39">View</from-activity-id>
+    <control-flow-case id="__40">
+      <from-outcome id="__42">return to Search</from-outcome>
+      <to-activity-id id="__41">SearchPG</to-activity-id>
+    </control-flow-case>
+  </control-flow-rule>
+  <managed-bean id="__15">
+    <managed-bean-name id="__18">MainBean</managed-bean-name>
+    <managed-bean-class id="__16">MainBean</managed-bean-class>
+    <managed-bean-scope id="__17">request</managed-bean-scope>
+  </managed-bean>
+  <managed-bean id="__20">
+    <managed-bean-name id="__19">SearchBean</managed-bean-name>
+    <managed-bean-class id="__22">SearchBean</managed-bean-class>
+    <managed-bean-scope id="__21">request</managed-bean-scope>
+  </managed-bean>
+  <managed-bean id="__24">
+    <managed-bean-name id="__26">UploadBean</managed-bean-name>
+    <managed-bean-class id="__25">UploadBean</managed-bean-class>
+    <managed-bean-scope id="__23">request</managed-bean-scope>
+  </managed-bean>
+  <managed-bean id="__33">
+    <managed-bean-name id="__34">SubmitSendNotificationBean</managed-bean-name>
+    <managed-bean-class id="__31">SubmitSendNotificationBean</managed-bean-class>
+    <managed-bean-scope id="__32">request</managed-bean-scope>
+  </managed-bean>
+  <managed-bean id="__14">
+    <managed-bean-name id="__12">SampleStatusLineVoExcelFormat</managed-bean-name>
+    <managed-bean-class id="__11">SampleStatusLineVoExcelFormat</managed-bean-class>
+    <managed-bean-scope id="__13">request</managed-bean-scope>
+  </managed-bean>
+  <managed-bean id="__28">
+    <managed-bean-name id="__27">PopUpBean</managed-bean-name>
+    <managed-bean-class id="__30">PopUpBean</managed-bean-class>
+    <managed-bean-scope id="__29">request</managed-bean-scope>
+  </managed-bean>
+</adfc-config>

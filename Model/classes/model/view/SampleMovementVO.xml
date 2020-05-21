@@ -1,0 +1,1085 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="SampleMovementVO"
+  Version="11.1.1.62.29"
+  InheritPersonalization="true"
+  BindingStyle="OracleName"
+  CustomQuery="true"
+  PageIterMode="Full"
+  UseGlueCode="false">
+  <DesignTime>
+    <Attr Name="_isExpertMode" Value="true"/>
+  </DesignTime>
+  <Properties>
+    <SchemaBasedProperties>
+      <LABEL
+        ResId="model.view.SampleMovementVO_LABEL"/>
+    </SchemaBasedProperties>
+  </Properties>
+  <SQLQuery>
+    <![CDATA[/* Formatted on 24/Oct/18 4:57:15 PM BY SAKIBUL_ISLAM (QP5 v5.256.13226.35510) */
+  SELECT M.*,
+         S.FINAL_SAMPLE_SENT_TO_WASH SAMPLE_SENT_TO_WASH_DATE,
+         S.CHALLAN_NO SAMPLE_CHALLAN_NO,
+         S.QTY SEND_QTY,
+         S.HALF_LEG_QTY SAMPLE_HALF_LEG,
+         S.TUBE_PANEL_QTY SAMPLE_PANEL_QTY,
+         S.SENDING_REMARKS SAMPLE_REMARKS,
+         S.WASHING_UNIT,
+         RS.FINAL_SAMPLE_RCVD_DATE REV_SAMPLE_DATE,
+         RS.CHALLAN_NO REV_SAMPLE_CHALAN,
+         RS.RECEIVE_QTY REV_SAMPLE_QTY,
+         RS.RECEIVE_HALF_LEG_QTY REV_SAMPLE_HALF_LEG,
+         RS.RECEIVE_TUBE_QTY REV_SAMPLE_TUBE_QTY,
+         WTS.SENDING_TO_SAMPLE_DATE WASH_SEND_TO_SAMPLE_DATE,
+         WTS.SENDING_TO_SAMPLE_CHALLAN_NO WASH_SEND_TO_SAMPLE_CHALLAN_NO,
+         WTS.SENDING_TO_SAMPLE_QTY WASH_SEND_TO_SAMPLE_QTY,
+         WTS.SENDING_TO_SAMPLE_HALF_LEG_QTY WASH_SEND_TO_SAMPLE_HALF_LEG,
+         WTS.SENDING_TO_SAMPLE_TUBE_QTY WASH_SEND_TO_SAMPLE_TUBE,
+         RTW.SENDING_TO_SAMPLE_CHALLAN_NO REV_WASH_CHL_NO,
+         RTW.RCV_SEND_TO_SAMP_DATE REV_WASH_DATE,
+         RTW.RCV_SEND_TO_SAMP_QTY REV_WASH_QTY,
+         RTW.RCV_SEND_TO_SAMP_HALF_LEG_QTY REV_WASH_HALF_LEG,
+         RTW.RCV_SEND_TO_SAMP_TUBE_QTY REV_WASH_TUBE
+    FROM (SELECT A.SAMPLE_DOC_NO SAMPLE_REQ_NO,
+                 A.HEADER_ID,
+                 C.CUSTOMER_NAME,
+                 A.SEASON,
+                 A.CREATION_DATE,
+                 A.CREATED_BY,
+                 (SELECT USER_NAME
+                    FROM FND_USER FU
+                   WHERE FU.USER_ID = A.CREATED_BY)
+                    CREATED_BY_USER_NAME,
+                 A.SEND_NOTIFICATION_TO,
+                 B.SAMPLE_TYPE,
+                 B.STYLE_NUMBER,
+                 B.SIZE_NUMBER,
+                 B.QTY,
+                 B.HALF_LEG_QTY,
+                 B.TUBE,
+                 B.ITEM_DESCRIPTION,
+                 B.WIDTH,
+                 B.FABRIC_COMPOSITION,
+                 B.PACKAGE_RECEIVED_DATE,
+                 B.REMARKS,
+                 B.FABRIC,
+                 B.FABRIC_REFERENCE_NO,
+                 B.COLOR_WASH,
+                 B.WEIGHT_VALUE,
+                 B.WEIGHT_TYPE,
+                 B.FABRIC_SUPPLIER,
+                 B.BRAND,
+                 B.END_USER,
+                 B.BUYER_MERCHANDISER,
+                 B.THREAD,
+                 B.BUTTON,
+                 B.RIVET,
+                 B.LAST_INFO,
+                 B.LAST_INFO_RECEIVED_DATE,
+                 B.SPECIAL_DETAILING,
+                 B.YDS_STATUS,
+                 B.DEPARTMENT,
+                 B.WASH_INSTRUCTION,
+                 B.STYLE_DESCRIPTION
+            FROM MNJ_ONT_SAMPLE_STATUS A,
+                 MNJ_ONT_SAMPLE_STATUS_LINE B,
+                 AR_CUSTOMERS C
+           WHERE A.HEADER_ID = B.HEADER_ID --AND A.HEADER_ID = 313
+                 AND C.CUSTOMER_ID = A.BUYER_ID) M,
+         (SELECT D.SAMPLE_DOC_NO,
+                 D.HEDER_ID,
+                 D.SAMPLE_TYPE,
+                 D.STYLE_NUMBER,
+                 D.CHALLAN_NO,
+                 D.SIZE_DET,
+                 D.QTY,
+                 D.HALF_LEG_QTY,
+                 D.TUBE_PANEL_QTY,
+                 D.SENDING_REMARKS,
+                 D.WASHING_UNIT,
+                 D.FINAL_SAMPLE_SENT_TO_WASH
+            FROM MNJ_ONT_SAMPLE_STATUS_DETAIL D) S,           --send to sample
+         (SELECT R_F_S.SAMPLE_DOC_NO,
+                 R_F_S.HEDER_ID,
+                 R_F_S.FINAL_SAMPLE_RCVD_DATE,
+                 R_F_S.CHALLAN_NO,
+                 R_F_S.RECEIVE_QTY,
+                 R_F_S.RECEIVE_HALF_LEG_QTY,
+                 R_F_S.RECEIVE_TUBE_QTY,
+                 R_F_S.SIZE_DET,
+                 R_F_S.STYLE_NUMBER
+            FROM MNJ_ONT_SMPL_STS_RCV_FRM_SMPL R_F_S) RS,      -- receive Wash
+         (SELECT W_T_S.SAMPLE_DOC_NO,
+                 W_T_S.HEDER_ID,
+                 W_T_S.STYLE_NUMBER,
+                 W_T_S.SIZE_DET,
+                 W_T_S.SENDING_TO_SAMPLE_CHALLAN_NO,
+                 W_T_S.SENDING_TO_SAMPLE_DATE,
+                 W_T_S.SENDING_TO_SAMPLE_QTY,
+                 W_T_S.SENDING_TO_SAMPLE_HALF_LEG_QTY,
+                 W_T_S.SENDING_TO_SAMPLE_TUBE_QTY
+            FROM MNJ_ONT_SAMP_STAT_SEND_TO_SAMP w_t_s) WTS,   --WASH TO SAMPLE
+         (SELECT R_F_W.SAMPLE_DOC_NO,
+                 R_F_W.heAder_id,
+                 R_F_W.style_number,
+                 R_F_W.size_det,
+                 R_F_W.sending_to_sample_challan_no,
+                 R_F_W.RCV_SEND_TO_SAMP_DATE,
+                 R_F_W.RCV_SEND_TO_SAMP_QTY,
+                 R_F_W.RCV_SEND_TO_SAMP_HALF_LEG_QTY,
+                 R_F_W.RCV_SEND_TO_SAMP_TUBE_QTY
+            FROM MNJ_ONT_SAMP_STAT_RCV_FRM_WASH R_F_W) RTW     --RCV FROM WASH
+   WHERE     M.HEADER_ID = S.heder_id(+)
+         AND M.STYLE_NUMBER = S.STYLE_NUMBER(+)
+         AND M.SIZE_NUMBER = S.SIZE_DET(+)
+         AND S.HEDER_ID = RS.HEDER_ID(+)
+         AND S.STYLE_NUMBER = RS.STYLE_NUMBER(+)
+         AND S.SIZE_DET = RS.SIZE_DET(+)
+         AND RS.HEDER_ID = WTS.HEDER_ID(+)
+         AND RS.STYLE_NUMBER = WTS.STYLE_NUMBER(+)
+         AND RS.SIZE_DET = WTS.SIZE_DET(+)
+         AND WTS.HEDER_ID = RTW.HEADER_ID(+)
+         AND WTS.STYLE_NUMBER = RTW.STYLE_NUMBER(+)
+         AND WTS.SIZE_DET = RTW.SIZE_DET(+)
+ORDER BY SAMPLE_REQ_NO DESC]]>
+  </SQLQuery>
+  <ViewAttribute
+    Name="SampleReqNo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="SAMPLE_REQ_NO"
+    Expression="SAMPLE_REQ_NO"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="22"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="HeaderId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    IsNotNull="true"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="HEADER_ID"
+    Expression="HEADER_ID"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="22"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CustomerName"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="50"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CUSTOMER_NAME"
+    Expression="CUSTOMER_NAME"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="50"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Season"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="500"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SEASON"
+    Expression="SEASON"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="500"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CreationDate"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Date"
+    ColumnType="DATE"
+    AliasName="CREATION_DATE"
+    Expression="CREATION_DATE"
+    SQLType="DATE">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="7"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <FMT_FORMATTER
+          ResId="model.view.SampleMovementVO.CreationDate_FMT_FORMATTER"/>
+        <FMT_FORMAT
+          ResId="model.view.SampleMovementVO.CreationDate_FMT_FORMAT"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CreatedBy"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="CREATED_BY"
+    Expression="CREATED_BY"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CreatedByUserName"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="100"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CREATED_BY_USER_NAME"
+    Expression="CREATED_BY_USER_NAME"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="100"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SendNotificationTo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="500"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SEND_NOTIFICATION_TO"
+    Expression="SEND_NOTIFICATION_TO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="500"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SampleType"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="200"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SAMPLE_TYPE"
+    Expression="SAMPLE_TYPE"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="200"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="StyleNumber"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="STYLE_NUMBER"
+    Expression="STYLE_NUMBER"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SizeNumber"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SIZE_NUMBER"
+    Expression="SIZE_NUMBER"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Qty"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="QTY"
+    Expression="QTY"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="HalfLegQty"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="HALF_LEG_QTY"
+    Expression="HALF_LEG_QTY"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Tube"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="TUBE"
+    Expression="TUBE"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ItemDescription"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="500"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="ITEM_DESCRIPTION"
+    Expression="ITEM_DESCRIPTION"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="500"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Width"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="500"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="WIDTH"
+    Expression="WIDTH"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="500"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="FabricComposition"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="500"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="FABRIC_COMPOSITION"
+    Expression="FABRIC_COMPOSITION"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="500"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="PackageReceivedDate"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Date"
+    ColumnType="DATE"
+    AliasName="PACKAGE_RECEIVED_DATE"
+    Expression="PACKAGE_RECEIVED_DATE"
+    SQLType="DATE">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="7"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Remarks"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="1000"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="REMARKS"
+    Expression="REMARKS"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="1000"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Fabric"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="500"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="FABRIC"
+    Expression="FABRIC"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="500"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="FabricReferenceNo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="500"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="FABRIC_REFERENCE_NO"
+    Expression="FABRIC_REFERENCE_NO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="500"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ColorWash"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="500"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="COLOR_WASH"
+    Expression="COLOR_WASH"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="500"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="WeightValue"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="500"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="WEIGHT_VALUE"
+    Expression="WEIGHT_VALUE"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="500"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="WeightType"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="500"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="WEIGHT_TYPE"
+    Expression="WEIGHT_TYPE"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="500"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="FabricSupplier"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="500"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="FABRIC_SUPPLIER"
+    Expression="FABRIC_SUPPLIER"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="500"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Brand"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="BRAND"
+    Expression="BRAND"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="EndUser"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="END_USER"
+    Expression="END_USER"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="BuyerMerchandiser"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="BUYER_MERCHANDISER"
+    Expression="BUYER_MERCHANDISER"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Thread"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="THREAD"
+    Expression="THREAD"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Button"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="BUTTON"
+    Expression="BUTTON"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Rivet"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="RIVET"
+    Expression="RIVET"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="LastInfo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="LAST_INFO"
+    Expression="LAST_INFO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="LastInfoReceivedDate"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Date"
+    ColumnType="DATE"
+    AliasName="LAST_INFO_RECEIVED_DATE"
+    Expression="LAST_INFO_RECEIVED_DATE"
+    SQLType="DATE">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="7"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SpecialDetailing"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="500"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SPECIAL_DETAILING"
+    Expression="SPECIAL_DETAILING"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="500"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="YdsStatus"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="200"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="YDS_STATUS"
+    Expression="YDS_STATUS"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="200"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Department"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="500"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="DEPARTMENT"
+    Expression="DEPARTMENT"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="500"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="WashInstruction"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="500"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="WASH_INSTRUCTION"
+    Expression="WASH_INSTRUCTION"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="500"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="StyleDescription"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="500"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="STYLE_DESCRIPTION"
+    Expression="STYLE_DESCRIPTION"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="500"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SampleSentToWashDate"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Date"
+    ColumnType="DATE"
+    AliasName="SAMPLE_SENT_TO_WASH_DATE"
+    Expression="SAMPLE_SENT_TO_WASH_DATE"
+    SQLType="DATE">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="7"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <FMT_FORMATTER
+          ResId="model.view.SampleMovementVO.SampleSentToWashDate_FMT_FORMATTER"/>
+        <FMT_FORMAT
+          ResId="model.view.SampleMovementVO.SampleSentToWashDate_FMT_FORMAT"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SampleChallanNo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="100"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SAMPLE_CHALLAN_NO"
+    Expression="SAMPLE_CHALLAN_NO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="100"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SendQty"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="20"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SEND_QTY"
+    Expression="SEND_QTY"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="20"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SampleHalfLeg"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="50"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SAMPLE_HALF_LEG"
+    Expression="SAMPLE_HALF_LEG"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="50"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SamplePanelQty"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="50"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SAMPLE_PANEL_QTY"
+    Expression="SAMPLE_PANEL_QTY"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="50"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SampleRemarks"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="1000"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SAMPLE_REMARKS"
+    Expression="SAMPLE_REMARKS"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="1000"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="WashingUnit"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="50"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="WASHING_UNIT"
+    Expression="WASHING_UNIT"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="50"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="RevSampleDate"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Date"
+    ColumnType="DATE"
+    AliasName="REV_SAMPLE_DATE"
+    Expression="REV_SAMPLE_DATE"
+    SQLType="DATE">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="7"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <FMT_FORMATTER
+          ResId="model.view.SampleMovementVO.RevSampleDate_FMT_FORMATTER"/>
+        <FMT_FORMAT
+          ResId="model.view.SampleMovementVO.RevSampleDate_FMT_FORMAT"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="RevSampleChalan"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="100"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="REV_SAMPLE_CHALAN"
+    Expression="REV_SAMPLE_CHALAN"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="100"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="RevSampleQty"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="100"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="REV_SAMPLE_QTY"
+    Expression="REV_SAMPLE_QTY"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="100"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="RevSampleHalfLeg"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="100"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="REV_SAMPLE_HALF_LEG"
+    Expression="REV_SAMPLE_HALF_LEG"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="100"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="RevSampleTubeQty"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="100"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="REV_SAMPLE_TUBE_QTY"
+    Expression="REV_SAMPLE_TUBE_QTY"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="100"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="WashSendToSampleDate"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Date"
+    ColumnType="DATE"
+    AliasName="WASH_SEND_TO_SAMPLE_DATE"
+    Expression="WASH_SEND_TO_SAMPLE_DATE"
+    SQLType="DATE">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="7"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <FMT_FORMATTER
+          ResId="model.view.SampleMovementVO.WashSendToSampleDate_FMT_FORMATTER"/>
+        <FMT_FORMAT
+          ResId="model.view.SampleMovementVO.WashSendToSampleDate_FMT_FORMAT"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="WashSendToSampleChallanNo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="200"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="WASH_SEND_TO_SAMPLE_CHALLAN_NO"
+    Expression="WASH_SEND_TO_SAMPLE_CHALLAN_NO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="200"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="WashSendToSampleQty"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="100"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="WASH_SEND_TO_SAMPLE_QTY"
+    Expression="WASH_SEND_TO_SAMPLE_QTY"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="100"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="WashSendToSampleHalfLeg"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="100"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="WASH_SEND_TO_SAMPLE_HALF_LEG"
+    Expression="WASH_SEND_TO_SAMPLE_HALF_LEG"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="100"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="WashSendToSampleTube"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="100"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="WASH_SEND_TO_SAMPLE_TUBE"
+    Expression="WASH_SEND_TO_SAMPLE_TUBE"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="100"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="RevWashChlNo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="200"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="REV_WASH_CHL_NO"
+    Expression="REV_WASH_CHL_NO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="200"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="RevWashDate"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Date"
+    ColumnType="DATE"
+    AliasName="REV_WASH_DATE"
+    Expression="REV_WASH_DATE"
+    SQLType="DATE">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="7"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <FMT_FORMATTER
+          ResId="model.view.SampleMovementVO.RevWashDate_FMT_FORMATTER"/>
+        <FMT_FORMAT
+          ResId="model.view.SampleMovementVO.RevWashDate_FMT_FORMAT"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="RevWashQty"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="100"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="REV_WASH_QTY"
+    Expression="REV_WASH_QTY"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="100"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="RevWashHalfLeg"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="100"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="REV_WASH_HALF_LEG"
+    Expression="REV_WASH_HALF_LEG"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="100"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="RevWashTube"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="100"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="REV_WASH_TUBE"
+    Expression="REV_WASH_TUBE"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="100"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ResourceBundle>
+    <PropertiesBundle
+      PropertiesFile="model.ModelBundle"/>
+  </ResourceBundle>
+</ViewObject>

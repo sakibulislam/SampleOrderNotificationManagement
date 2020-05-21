@@ -1,0 +1,94 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<SDM>
+   <OverallProperties
+      id="OverallProperties1"/>
+   <View
+      id="View2">
+      <property
+         name="activityId">CreatePG</property>
+      <property
+         name="page">/CreatePG.jspx</property>
+      <property
+         name="description">&lt;html>&lt;p>&lt;b>CreatePG&lt;/b>&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+      <property
+         name="thumbnailExpanded">false</property>
+      <property
+         name="exceptionHandler">false</property>
+      <property
+         name="y">134.39648</property>
+      <property
+         name="x">401.5</property>
+   </View>
+   <View
+      id="View3">
+      <property
+         name="activityId">SearchPG</property>
+      <property
+         name="page">/SearchPG.jspx</property>
+      <property
+         name="thumbnailExpanded">false</property>
+      <property
+         name="description">&lt;html>&lt;p>&lt;b>SearchPG&lt;/b>&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+      <property
+         name="exceptionHandler">false</property>
+      <property
+         name="y">138.99414</property>
+      <property
+         name="x">165.5</property>
+   </View>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase4"
+      from="View3"
+      to="View2">
+      <property
+         name="fromOutcome">goto create</property>
+      <property
+         name="sdm:polyPoints">R46,206.5,135.14355,360.39554,130.5459,L46</property>
+   </ControlFlowCase>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase5"
+      from="View2"
+      to="View3">
+      <property
+         name="fromOutcome">*back to search</property>
+      <property
+         name="sdm:polyPoints">L54,360.5,137.5459,206.6045,142.14355,R54</property>
+   </ControlFlowCase>
+   <View
+      id="View6">
+      <property
+         name="activityId">View</property>
+      <property
+         name="page">/View.jspx</property>
+      <property
+         name="description">&lt;html>&lt;p>&lt;b>View&lt;/b>&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+      <property
+         name="exceptionHandler">false</property>
+      <property
+         name="y">260.09766</property>
+      <property
+         name="x">288.5</property>
+   </View>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase7"
+      from="View3"
+      to="View6">
+      <property
+         name="fromOutcome">*gotoView</property>
+      <property
+         name="sdm:polyPoints">B44,162.0,195.96126,245.048,263.24707,L54</property>
+   </ControlFlowCase>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase8"
+      from="View6"
+      to="View3">
+      <property
+         name="fromOutcome">return to Search</property>
+      <property
+         name="sdm:polyPoints">L46,247.5,256.24707,169.0,192.64355,B56</property>
+   </ControlFlowCase>
+</SDM>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewLink SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewLink
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="MnjMfgSamplinFkLink"
+  Version="11.1.1.62.29"
+  InheritPersonalization="true"
+  EntityAssociation="model.entity.MnjMfgSamplinFkAssoc">
+  <DesignTime>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
+  <ViewLinkDefEnd
+    Name="MnjOntSampleStatusVO"
+    Cardinality="1"
+    Owner="model.view.MnjOntSampleStatusVO"
+    Source="true">
+    <DesignTime>
+      <Attr Name="_finderName" Value="MnjOntSampleStatusVO"/>
+      <Attr Name="_isUpdateable" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.view.MnjOntSampleStatusVO.HeaderId"/>
+      <Item Value="model.view.MnjOntSampleStatusVO.SampleDocNo"/>
+      <Item Value="model.view.MnjOntSampleStatusVO.WashingUnit"/>
+    </AttrArray>
+  </ViewLinkDefEnd>
+  <ViewLinkDefEnd
+    Name="MnjOntSampleStatusLineVO"
+    Cardinality="-1"
+    Owner="model.view.MnjOntSampleStatusLineVO">
+    <DesignTime>
+      <Attr Name="_finderName" Value="MnjOntSampleStatusLineVO"/>
+      <Attr Name="_isUpdateable" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.view.MnjOntSampleStatusLineVO.HeaderId"/>
+      <Item Value="model.view.MnjOntSampleStatusLineVO.SampleDocNo"/>
+      <Item Value="model.view.MnjOntSampleStatusLineVO.WashingUnit"/>
+    </AttrArray>
+  </ViewLinkDefEnd>
+</ViewLink>

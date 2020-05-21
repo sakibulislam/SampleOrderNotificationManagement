@@ -1,0 +1,820 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1"
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
+  <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+  <f:view>
+    <af:document id="d1">
+      <af:messages id="m1"/>
+      <af:form id="f1">
+        <af:panelHeader text="Sample Requisitions Search Page" id="ph1"
+                        icon="/icons/search_file.png">
+          <f:facet name="context"/>
+          <f:facet name="menuBar"/>
+          <f:facet name="toolbar"/>
+          <f:facet name="legend"/>
+          <f:facet name="info"/>
+          <af:panelFormLayout id="pfl1" visible="false">
+            <af:inputListOfValues id="buyerId"
+                                  popupTitle="Search and Select: #{bindings.Buyer.hints.label}"
+                                  value="#{bindings.Buyer.inputValue}"
+                                  label="Buyer"
+                                  model="#{bindings.Buyer.listOfValuesModel}"
+                                  required="#{bindings.Buyer.hints.mandatory}"
+                                  columns="#{bindings.Buyer.hints.displayWidth}"
+                                  shortDesc="#{bindings.Buyer.hints.tooltip}"
+                                  autoSubmit="true"
+                                  contentStyle="font-weight:bold;background-color:rgb(242,237,255);">
+              <f:validator binding="#{bindings.Buyer.validator}"/>
+              <af:autoSuggestBehavior suggestedItems="#{bindings.Buyer.suggestedItems}"/>
+            </af:inputListOfValues>
+            <af:inputListOfValues id="inputListOfValues1"
+                                  popupTitle="Search and Select: #{bindings.Season.hints.label}"
+                                  value="#{bindings.Season.inputValue}"
+                                  label="Season"
+                                  model="#{bindings.Season.listOfValuesModel}"
+                                  required="#{bindings.Season.hints.mandatory}"
+                                  columns="#{bindings.Season.hints.displayWidth}"
+                                  shortDesc="#{bindings.Season.hints.tooltip}"
+                                  contentStyle="font-weight:bold;background-color:rgb(242,237,255);">
+              <f:validator binding="#{bindings.Season.validator}"/>
+              <af:autoSuggestBehavior suggestedItems="#{bindings.Season.suggestedItems}"/>
+            </af:inputListOfValues>
+            <af:spacer width="75" height="10" id="s3"/>
+            <af:commandButton text="Search" id="cb1"
+                              inlineStyle="height:30.0px; font-weight:bold;"
+                              partialSubmit="true"
+                              actionListener="#{SearchBean.filterHeader}"
+                              icon="/icons/search new 2.png"/>
+            <af:spacer width="75" height="10" id="s2"/>
+          </af:panelFormLayout>
+          <af:panelTabbed id="pt1" styleClass="AFStretchWidth"
+                          inlineStyle="height:525px;">
+            <af:showDetailItem text="Requisitions" id="sdi1"
+                               icon="/icons/jeans pocket.png">
+              <af:panelCollection id="pc1" styleClass="AFStretchWidth"
+                                  inlineStyle="height:465px;">
+                <f:facet name="menus"/>
+                <f:facet name="toolbar">
+                  <af:toolbar id="t2">
+                    <af:commandButton text="Open"
+                                      id="cb2" action="goto create"
+                                      inlineStyle="height:25.0px; font-weight:bold;"
+                                      visible="false"/>
+                    <af:commandButton actionListener="#{bindings.CreateInsert.execute}"
+                                      text="Create"
+                                      disabled="#{!bindings.CreateInsert.enabled}"
+                                      id="cb3" action="goto create"
+                                      inlineStyle="height:30.0px; font-weight:bold;"
+                                      icon="/icons/Icon_6-512.png"/>
+                    <af:spacer width="20" height="10" id="s4"/>
+                    <af:commandButton actionListener="#{bindings.Delete.execute}"
+                                      text="Delete"
+                                      disabled="#{!bindings.Delete.enabled}"
+                                      id="cb4"
+                                      inlineStyle="height:25.0px; font-weight:bold;"
+                                      partialSubmit="true" visible="false"/>
+                    <af:commandButton text="Save" id="cb5" partialSubmit="true"
+                                      inlineStyle="height:30.0px; font-weight:bold;"
+                                      actionListener="#{MainBean.save}"
+                                      icon="/icons/save new.png"/>
+                    <af:spacer width="580" height="10" id="s1"/>
+                    <af:commandButton text="Sample Movement" id="cb6"
+                                      inlineStyle="height:30.0px; font-weight:bold;"
+                                      icon="/icons/movement new.png">
+                      <af:showPopupBehavior popupId="::p2" alignId="::f1"/>
+                    </af:commandButton>
+                    <af:spacer width="20" height="10" id="s5"/>
+                    <af:commandButton text="Courier Entry" id="cb8"
+                                      inlineStyle="height:30.0px; font-weight:bold;"
+                                      actionListener="#{MainBean.courierEntryExportAppears}"
+                                      icon="/icons/copy-2.png" visible="false"/>
+                  </af:toolbar>
+                </f:facet>
+                <f:facet name="statusbar"/>
+                <af:table value="#{bindings.MnjOntSampleStatusVO1.collectionModel}"
+                          var="row"
+                          rows="#{bindings.MnjOntSampleStatusVO1.rangeSize}"
+                          emptyText="#{bindings.MnjOntSampleStatusVO1.viewable ? 'No data to display.' : 'Access Denied.'}"
+                          fetchSize="#{bindings.MnjOntSampleStatusVO1.rangeSize}"
+                          rowBandingInterval="0"
+                          filterModel="#{bindings.MnjOntSampleStatusVO1Query.queryDescriptor}"
+                          queryListener="#{bindings.MnjOntSampleStatusVO1Query.processQuery}"
+                          filterVisible="true" varStatus="vs"
+                          selectedRowKeys="#{bindings.MnjOntSampleStatusVO1.collectionModel.selectedRow}"
+                          selectionListener="#{bindings.MnjOntSampleStatusVO1.collectionModel.makeCurrent}"
+                          rowSelection="single" id="t1"
+                          partialTriggers=":::cb1 ::cb2 ::cb3 ::cb4 ::cb5 cb10">
+                  <af:column sortProperty="SampleDocNo" filterable="true"
+                             sortable="true" headerText="Sample Req. No" id="c2"
+                             align="center" width="40"
+                             inlineStyle="height:35px;">
+                    <af:outputText value="#{row.SampleDocNo}" id="ot6">
+                      <af:convertNumber groupingUsed="false"
+                                        pattern="#{bindings.MnjOntSampleStatusVO1.hints.SampleDocNo.format}"/>
+                    </af:outputText>
+                  </af:column>
+                  <af:column sortProperty="Buyername" filterable="true"
+                             sortable="true" headerText="Buyer" id="c3"
+                             align="center" width="115"
+                             filterFeatures="caseInsensitive">
+                    <af:outputText value="#{row.Buyername}" id="ot1"/>
+                  </af:column>
+                  <af:column sortProperty="Season" filterable="true"
+                             sortable="true" headerText="Season" id="c4"
+                             align="center" width="80"
+                             filterFeatures="caseInsensitive">
+                    <af:outputText value="#{row.Season}" id="ot3"/>
+                  </af:column>
+                  <af:column headerText="Sample Type"
+                             id="c79" align="center" sortable="true"
+                             filterable="true" sortProperty="SampleCategory"
+                             width="120" filterFeatures="caseInsensitive">
+                    <af:outputText value="#{row.SampleCategory}" id="ot73"/>
+                  </af:column>
+                  <af:column headerText="Style"
+                             id="c78" align="center" sortable="true"
+                             filterable="true" sortProperty="Style" width="140"
+                             filterFeatures="caseInsensitive">
+                    <af:outputText value="#{row.Style}" id="ot72"/>
+                  </af:column>
+                  <af:column headerText="Wash"
+                             id="c80" width="125" align="center"
+                             sortable="true" filterable="true"
+                             sortProperty="ColorWash"
+                             filterFeatures="caseInsensitive">
+                    <af:outputText value="#{row.ColorWash}" id="ot74"/>
+                  </af:column>
+                  <af:column headerText="Send Notification To" id="c8"
+                             width="100" align="center" sortable="true"
+                             filterable="true"
+                             sortProperty="SendNotificationTo">
+                    <af:outputText value="#{row.SendNotificationTo}" id="ot8"/>
+                  </af:column>
+                  <af:column sortProperty="CreationDate" filterable="true"
+                             sortable="true" headerText="Creation Date" id="c6"
+                             align="center" width="65">
+                    <f:facet name="filter">
+                      <af:inputDate value="#{vs.filterCriteria.CreationDate}"
+                                    id="id2" contentStyle="width:40px;"/>
+                    </f:facet>
+                    <af:outputText value="#{row.CreationDate}" id="ot2">
+                      <af:convertDateTime pattern="#{bindings.MnjOntSampleStatusVO1.hints.CreationDate.format}"/>
+                    </af:outputText>
+                  </af:column>
+                  <af:column headerText="Created By User Name" id="c9"
+                             align="center" sortable="true" filterable="true"
+                             sortProperty="CreatedByUserName"
+                             filterFeatures="caseInsensitive" width="80">
+                    <af:outputText value="#{row.CreatedByUserName}" id="ot9"/>
+                  </af:column>
+                  <af:column sortProperty="LastUpdateDate" filterable="true"
+                             sortable="true" headerText="Last Update Date"
+                             id="c1" align="center" width="65">
+                    <f:facet name="filter">
+                      <af:inputDate value="#{vs.filterCriteria.LastUpdateDate}"
+                                    id="id1" contentStyle="width:40px;"/>
+                    </f:facet>
+                    <af:outputText value="#{row.LastUpdateDate}" id="ot4">
+                      <af:convertDateTime pattern="#{bindings.MnjOntSampleStatusVO1.hints.LastUpdateDate.format}"/>
+                    </af:outputText>
+                  </af:column>
+                  <af:column headerText="Last Updated By User Name" id="c10"
+                             align="center" sortable="true" filterable="true"
+                             sortProperty="LastUpdatedByUserName" width="80"
+                             filterFeatures="caseInsensitive">
+                    <af:outputText value="#{row.LastUpdatedByUserName}"
+                                   id="ot10"/>
+                  </af:column>
+                  <af:column headerText="Submit Status"
+                             id="c86" align="center" sortable="true"
+                             filterable="true"
+                             sortProperty="SubmitStatusMessage" width="30"
+                             filterFeatures="caseInsensitive">
+                    <af:outputText value="#{row.SubmitStatusMessage}"
+                                   id="ot78"/>
+                  </af:column>
+                  <af:column id="c88" width="38" headerText="Edit"
+                             align="center">
+                    <af:commandButton id="cb9"
+                                      icon="/icons/edit new.png"
+                                      action="goto create"/>
+                  </af:column>
+                  <af:column id="c89" width="38" headerText="Delete"
+                             align="center">
+                    <af:commandButton actionListener="#{bindings.Delete.execute}"
+                                      disabled="#{!bindings.Delete.enabled}"
+                                      id="cb10" icon="/icons/delete new 2.png"
+                                      partialSubmit="true"/>
+                  </af:column>
+                  <af:column id="c5" headerText="Attchmnt" align="center"
+                             width="42">
+                    <af:commandButton id="cb11"
+                                      icon="/icons/attach-xxl.png"
+                                      action="#{MainBean.callAttachment}"/>
+                  </af:column>
+                </af:table>
+              </af:panelCollection>
+            </af:showDetailItem>
+            <af:showDetailItem text="Requisitions (View Only)" id="sdi2"
+                               icon="/icons/viewonly.png">
+              <af:panelCollection id="pc3" styleClass="AFStretchWidth"
+                                  inlineStyle="height:465px;">
+                <f:facet name="menus"/>
+                <f:facet name="toolbar"/>
+                <f:facet name="statusbar"/>
+                <af:table value="#{bindings.MnjOntSampleStatusViewOnlyVO1.collectionModel}"
+                          var="row"
+                          rows="#{bindings.MnjOntSampleStatusViewOnlyVO1.rangeSize}"
+                          emptyText="#{bindings.MnjOntSampleStatusViewOnlyVO1.viewable ? 'No data to display.' : 'Access Denied.'}"
+                          fetchSize="#{bindings.MnjOntSampleStatusViewOnlyVO1.rangeSize}"
+                          rowBandingInterval="0"
+                          filterModel="#{bindings.MnjOntSampleStatusViewOnlyVO1Query.queryDescriptor}"
+                          queryListener="#{bindings.MnjOntSampleStatusViewOnlyVO1Query.processQuery}"
+                          filterVisible="true" varStatus="vs"
+                          selectedRowKeys="#{bindings.MnjOntSampleStatusViewOnlyVO1.collectionModel.selectedRow}"
+                          selectionListener="#{bindings.MnjOntSampleStatusViewOnlyVO1.collectionModel.makeCurrent}"
+                          rowSelection="single" id="t5">
+                  <af:column sortProperty="SampleDocNo" filterable="true"
+                             sortable="true"
+                             headerText="Sample Req. No."
+                             id="c71" inlineStyle="height:35px;" align="center"
+                             width="40">
+                    <af:outputText value="#{row.SampleDocNo}" id="ot69">
+                      <af:convertNumber groupingUsed="false"
+                                        pattern="#{bindings.MnjOntSampleStatusViewOnlyVO1.hints.SampleDocNo.format}"/>
+                    </af:outputText>
+                  </af:column>
+                  <af:column sortProperty="Buyername" filterable="true"
+                             sortable="true"
+                             headerText="Buyer"
+                             id="c74" align="center" width="115"
+                             filterFeatures="caseInsensitive">
+                    <af:outputText value="#{row.Buyername}" id="ot75"/>
+                  </af:column>
+                  <af:column sortProperty="Season" filterable="true"
+                             sortable="true"
+                             headerText="Season"
+                             id="c70" align="center" width="70"
+                             filterFeatures="caseInsensitive">
+                    <af:outputText value="#{row.Season}" id="ot67"/>
+                  </af:column>
+                  <af:column sortProperty="SampleCategory" filterable="true"
+                             sortable="true"
+                             headerText="Sample Type"
+                             id="c82" align="center" width="145"
+                             filterFeatures="caseInsensitive">
+                    <af:outputText value="#{row.SampleCategory}" id="ot68"/>
+                  </af:column>
+                  <af:column sortProperty="Style" filterable="true"
+                             sortable="true"
+                             headerText="Style"
+                             id="c77" align="center" width="145"
+                             filterFeatures="caseInsensitive">
+                    <af:outputText value="#{row.Style}" id="ot61"/>
+                  </af:column>
+                  <af:column sortProperty="ColorWash" filterable="true"
+                             sortable="true"
+                             headerText="Wash"
+                             id="c83" align="center" width="125"
+                             filterFeatures="caseInsensitive">
+                    <af:outputText value="#{row.ColorWash}" id="ot76"/>
+                  </af:column>
+                  <af:column sortProperty="SendNotificationTo" filterable="true"
+                             sortable="true"
+                             headerText="Send Notification To"
+                             id="c76" align="center" width="100">
+                    <af:outputText value="#{row.SendNotificationTo}" id="ot20"/>
+                  </af:column>
+                  <af:column sortProperty="CreationDate" filterable="true"
+                             sortable="true"
+                             headerText="Creation Date"
+                             id="c72" align="center" width="75">
+                    <f:facet name="filter">
+                      <af:inputDate value="#{vs.filterCriteria.CreationDate}"
+                                    id="id6" contentStyle="width:50px;"/>
+                    </f:facet>
+                    <af:outputText value="#{row.CreationDate}" id="ot70">
+                      <af:convertDateTime pattern="#{bindings.MnjOntSampleStatusViewOnlyVO1.hints.CreationDate.format}"/>
+                    </af:outputText>
+                  </af:column>
+                  <af:column sortProperty="CreatedByUserName" filterable="true"
+                             sortable="true"
+                             headerText="Created By User Name"
+                             id="c73" align="center" width="80"
+                             filterFeatures="caseInsensitive">
+                    <af:outputText value="#{row.CreatedByUserName}" id="ot71"/>
+                  </af:column>
+                  <af:column sortProperty="LastUpdateDate" filterable="true"
+                             sortable="true"
+                             headerText="Last Update Date"
+                             id="c75" align="center" width="75">
+                    <f:facet name="filter">
+                      <af:inputDate value="#{vs.filterCriteria.LastUpdateDate}"
+                                    id="id9" contentStyle="width:50px;"/>
+                    </f:facet>
+                    <af:outputText value="#{row.LastUpdateDate}" id="ot77">
+                      <af:convertDateTime pattern="#{bindings.MnjOntSampleStatusViewOnlyVO1.hints.LastUpdateDate.format}"/>
+                    </af:outputText>
+                  </af:column>
+                  <af:column sortProperty="LastUpdatedByUserName"
+                             filterable="true" sortable="true"
+                             headerText="Last Updated By User Name"
+                             id="c81" align="center" width="80"
+                             filterFeatures="caseInsensitive">
+                    <af:outputText value="#{row.LastUpdatedByUserName}"
+                                   id="ot27"/>
+                  </af:column>
+                  <af:column headerText="Submit Status"
+                             id="c87" align="center" sortable="true"
+                             filterable="true" width="30"
+                             sortProperty="SubmitStatusMessage"
+                             filterFeatures="caseInsensitive">
+                    <af:outputText value="#{row.SubmitStatusMessage}"
+                                   id="ot79"/>
+                  </af:column>
+                  <af:column id="c84" headerText="View" align="center"
+                             width="40">
+                    <af:commandButton id="cb12" icon="/icons/viewonly.png"
+                                      action="*gotoView"/>
+                  </af:column>
+                  <af:column id="c85" headerText="Attchmnt" align="center"
+                             width="42">
+                    <af:commandButton id="cb13"
+                                      icon="/icons/attach-xxl.png"
+                                      action="#{MainBean.callAttachment2}"/>
+                  </af:column>
+                </af:table>
+              </af:panelCollection>
+            </af:showDetailItem>
+          </af:panelTabbed>
+        </af:panelHeader>
+        <af:popup id="p2">
+          <af:dialog id="d2" title="Sample Movement">
+            <af:panelCollection id="pc2"
+                                inlineStyle="width:1200.0px; height:450px;">
+              <f:facet name="menus"/>
+              <f:facet name="toolbar">
+                <af:toolbar id="t4">
+                  <af:commandButton text="Excel Report" id="cb7">
+                    <af:exportCollectionActionListener exportedId="t3"
+                                                       type="excelHTML"
+                                                       filename="Sample Movement.xls"
+                                                       title="Sample Movement"/>
+                  </af:commandButton>
+                </af:toolbar>
+              </f:facet>
+              <f:facet name="statusbar"/>
+              <af:table value="#{bindings.SampleMovementVO1.collectionModel}"
+                        var="row" rows="#{bindings.SampleMovementVO1.rangeSize}"
+                        emptyText="#{bindings.SampleMovementVO1.viewable ? 'No data to display.' : 'Access Denied.'}"
+                        fetchSize="#{bindings.SampleMovementVO1.rangeSize}"
+                        rowBandingInterval="0"
+                        filterModel="#{bindings.SampleMovementVO1Query.queryDescriptor}"
+                        queryListener="#{bindings.SampleMovementVO1Query.processQuery}"
+                        filterVisible="true" varStatus="vs"
+                        selectedRowKeys="#{bindings.SampleMovementVO1.collectionModel.selectedRow}"
+                        selectionListener="#{bindings.SampleMovementVO1.collectionModel.makeCurrent}"
+                        rowSelection="single" id="t3">
+                <af:column sortProperty="SampleReqNo" filterable="true"
+                           sortable="true"
+                           headerText="Sample Req. No."
+                           id="c42" align="center" width="80"
+                           inlineStyle="font-size:large; background-color:rgb(122,122,122);">
+                  <af:outputText value="#{row.SampleReqNo}" id="ot55">
+                    <af:convertNumber groupingUsed="false"
+                                      pattern="#{bindings.SampleMovementVO1.hints.SampleReqNo.format}"/>
+                  </af:outputText>
+                </af:column>
+                <af:column sortProperty="CustomerName" filterable="true"
+                           sortable="true"
+                           headerText="Buyer"
+                           id="c38" align="center"
+                           filterFeatures="caseInsensitive"
+                           inlineStyle="font-size:large; background-color:rgb(122,122,122);"
+                           width="205">
+                  <af:outputText value="#{row.CustomerName}" id="ot40"/>
+                </af:column>
+                <af:column sortProperty="Season" filterable="true"
+                           sortable="true"
+                           headerText="Season"
+                           id="c50" align="center"
+                           filterFeatures="caseInsensitive"
+                           inlineStyle="font-size:large; background-color:rgb(122,122,122);"
+                           width="155">
+                  <af:outputText value="#{row.Season}" id="ot14"/>
+                </af:column>
+                <af:column headerText="Creation Date"
+                           id="c68" align="center" sortable="true"
+                           filterable="true" sortProperty="CreationDate"
+                           filterFeatures="caseInsensitive" width="150"
+                           inlineStyle="font-size:large; background-color:rgb(122,122,122);">
+                  <af:outputText value="#{row.CreationDate}" id="ot13">
+                    <af:convertDateTime pattern="#{bindings.SampleMovementVO1.hints.CreationDate.format}"/>
+                  </af:outputText>
+                </af:column>
+                <af:column headerText="Created By User Name"
+                           id="c69" align="center" sortable="true"
+                           filterable="true" sortProperty="CreatedByUserName"
+                           filterFeatures="caseInsensitive" width="200"
+                           inlineStyle="font-size:large; background-color:rgb(122,122,122);">
+                  <af:outputText value="#{row.CreatedByUserName}" id="ot15"/>
+                </af:column>
+                <af:column sortProperty="SendNotificationTo" filterable="true"
+                           sortable="true"
+                           headerText="Send Notification To"
+                           id="c14" align="center" width="205"
+                           inlineStyle="background-color:rgb(122,122,122); font-size:large;">
+                  <af:outputText value="#{row.SendNotificationTo}" id="ot41"/>
+                </af:column>
+                <af:column id="c12" headerText="Sample Requisition Info"
+                           align="center" headerNoWrap="true">
+                  <af:column sortProperty="SampleType" filterable="true"
+                             sortable="true" headerText="Sample Type" id="c36"
+                             align="center" filterFeatures="caseInsensitive"
+                             inlineStyle="font-size:large; background-color:rgb(148,148,148);"
+                             width="175">
+                    <af:outputText value="#{row.SampleType}" id="ot60"/>
+                  </af:column>
+                  <af:column sortProperty="StyleNumber" filterable="true"
+                             sortable="true" headerText="Style No." id="c23"
+                             align="center" filterFeatures="caseInsensitive"
+                             inlineStyle="font-size:large; background-color:rgb(148,148,148);"
+                             width="205">
+                    <af:outputText value="#{row.StyleNumber}" id="ot31"/>
+                  </af:column>
+                  <af:column sortProperty="SizeNumber" filterable="true"
+                             sortable="true" headerText="Size" id="c33"
+                             align="center" filterFeatures="caseInsensitive"
+                             inlineStyle="font-size:large; background-color:rgb(148,148,148);"
+                             width="80">
+                    <af:outputText value="#{row.SizeNumber}" id="ot28"/>
+                  </af:column>
+                  <af:column sortProperty="Qty" filterable="true"
+                             sortable="true" headerText="Qty" id="c30"
+                             align="center" width="80"
+                             inlineStyle="background-color:rgb(148,148,148); font-size:large;">
+                    <af:outputText value="#{row.Qty}" id="ot16"/>
+                  </af:column>
+                  <af:column sortProperty="HalfLegQty" filterable="true"
+                             sortable="true" headerText="Half Leg Qty" id="c24"
+                             align="center" width="80"
+                             inlineStyle="background-color:rgb(148,148,148); font-size:large;">
+                    <af:outputText value="#{row.HalfLegQty}" id="ot57"/>
+                  </af:column>
+                  <af:column sortProperty="Tube" filterable="true"
+                             sortable="true" headerText="Tube Qty" id="c17"
+                             align="center" width="80"
+                             inlineStyle="background-color:rgb(148,148,148); font-size:large;">
+                    <af:outputText value="#{row.Tube}" id="ot56"/>
+                  </af:column>
+                  <af:column sortProperty="ItemDescription" filterable="true"
+                             sortable="true" headerText="Item Description"
+                             id="c61" align="center" width="235"
+                             inlineStyle="background-color:rgb(148,148,148); font-size:large;">
+                    <af:outputText value="#{row.ItemDescription}" id="ot36"/>
+                  </af:column>
+                  <af:column sortProperty="Width" filterable="true"
+                             sortable="true" headerText="Width" id="c15"
+                             align="center" width="80"
+                             inlineStyle="background-color:rgb(148,148,148); font-size:large;">
+                    <af:outputText value="#{row.Width}" id="ot32"/>
+                  </af:column>
+                  <af:column sortProperty="FabricComposition" filterable="true"
+                             sortable="true" headerText="Fabric Composition"
+                             id="c34" align="center" width="235"
+                             inlineStyle="background-color:rgb(148,148,148); font-size:large;">
+                    <af:outputText value="#{row.FabricComposition}" id="ot7"/>
+                  </af:column>
+                  <af:column sortProperty="PackageReceivedDate"
+                             filterable="true" sortable="true"
+                             headerText="Packg Rcvd Date" id="c32"
+                             align="center"
+                             inlineStyle="background-color:rgb(148,148,148); font-size:large;"
+                             width="175">
+                    <f:facet name="filter">
+                      <af:inputDate value="#{vs.filterCriteria.PackageReceivedDate}"
+                                    id="id5" contentStyle="width:150px;"/>
+                    </f:facet>
+                    <af:outputText value="#{row.PackageReceivedDate}" id="ot17">
+                      <af:convertDateTime pattern="#{bindings.SampleMovementVO1.hints.PackageReceivedDate.format}"/>
+                    </af:outputText>
+                  </af:column>
+                  <af:column sortProperty="FabricReferenceNo" filterable="true"
+                             sortable="true" headerText="Fabric Code" id="c66"
+                             align="center"
+                             inlineStyle="background-color:rgb(148,148,148); font-size:large;"
+                             width="155">
+                    <af:outputText value="#{row.FabricReferenceNo}" id="ot44"/>
+                  </af:column>
+                  <af:column sortProperty="ColorWash" filterable="true"
+                             sortable="true" headerText="Color Wash" id="c39"
+                             align="center"
+                             inlineStyle="background-color:rgb(148,148,148); font-size:large;"
+                             width="105">
+                    <af:outputText value="#{row.ColorWash}" id="ot51"/>
+                  </af:column>
+                  <af:column sortProperty="WeightValue" filterable="true"
+                             sortable="true" headerText="Weight Value" id="c60"
+                             align="center" width="75"
+                             inlineStyle="background-color:rgb(148,148,148); font-size:large;">
+                    <af:outputText value="#{row.WeightValue}" id="ot52"/>
+                  </af:column>
+                  <af:column sortProperty="WeightType" filterable="true"
+                             sortable="true" headerText="Weight Type" id="c20"
+                             align="center" width="75"
+                             inlineStyle="background-color:rgb(148,148,148); font-size:large;">
+                    <af:outputText value="#{row.WeightType}" id="ot22"/>
+                  </af:column>
+                  <af:column sortProperty="FabricSupplier" filterable="true"
+                             sortable="true" headerText="Fabric Supplier"
+                             id="c45" align="center"
+                             inlineStyle="background-color:rgb(148,148,148); font-size:large;"
+                             width="155">
+                    <af:outputText value="#{row.FabricSupplier}" id="ot62"/>
+                  </af:column>
+                  <af:column sortProperty="Brand" filterable="true"
+                             sortable="true" headerText="Brand" id="c56"
+                             align="center"
+                             inlineStyle="background-color:rgb(148,148,148); font-size:large;"
+                             width="105">
+                    <af:outputText value="#{row.Brand}" id="ot47"/>
+                  </af:column>
+                  <af:column sortProperty="EndUser" filterable="true"
+                             sortable="true" headerText="End User" id="c58"
+                             align="center"
+                             inlineStyle="background-color:rgb(148,148,148); font-size:large;"
+                             width="105">
+                    <af:outputText value="#{row.EndUser}" id="ot48"/>
+                  </af:column>
+                  <af:column sortProperty="BuyerMerchandiser" filterable="true"
+                             sortable="true" headerText="Buyer Merchandiser"
+                             id="c51" align="center"
+                             inlineStyle="background-color:rgb(148,148,148); font-size:large;"
+                             width="105">
+                    <af:outputText value="#{row.BuyerMerchandiser}" id="ot12"/>
+                  </af:column>
+                  <af:column sortProperty="Thread" filterable="true"
+                             sortable="true"
+                             headerText="#{bindings.SampleMovementVO1.hints.Thread.label}"
+                             id="c64" align="center"
+                             inlineStyle="background-color:rgb(148,148,148); font-size:large;"
+                             width="105">
+                    <af:outputText value="#{row.Thread}" id="ot49"/>
+                  </af:column>
+                  <af:column sortProperty="Button" filterable="true"
+                             sortable="true"
+                             headerText="#{bindings.SampleMovementVO1.hints.Button.label}"
+                             id="c62" align="center"
+                             inlineStyle="background-color:rgb(148,148,148); font-size:large;"
+                             width="105">
+                    <af:outputText value="#{row.Button}" id="ot26"/>
+                  </af:column>
+                  <af:column sortProperty="Rivet" filterable="true"
+                             sortable="true"
+                             headerText="#{bindings.SampleMovementVO1.hints.Rivet.label}"
+                             id="c25" align="center"
+                             inlineStyle="background-color:rgb(148,148,148); font-size:large;"
+                             width="105">
+                    <af:outputText value="#{row.Rivet}" id="ot59"/>
+                  </af:column>
+                  <af:column sortProperty="LastInfo" filterable="true"
+                             sortable="true" headerText="Last Info" id="c35"
+                             align="center"
+                             inlineStyle="background-color:rgb(148,148,148); font-size:large;"
+                             width="105">
+                    <af:outputText value="#{row.LastInfo}" id="ot35"/>
+                  </af:column>
+                  <af:column headerText="Last Info Rcvd Date" id="c21"
+                             align="center" sortable="true" filterable="true"
+                             sortProperty="LastInfoReceivedDate"
+                             inlineStyle="background-color:rgb(148,148,148); font-size:large;"
+                             width="175">
+                    <af:outputText value="#{row.LastInfoReceivedDate}" id="ot5">
+                      <af:convertDateTime pattern="#{bindings.SampleMovementVO1.hints.LastInfoReceivedDate.format}"/>
+                    </af:outputText>
+                  </af:column>
+                  <af:column sortProperty="SpecialDetailing" filterable="true"
+                             sortable="true" headerText="Special Detailing"
+                             id="c16" align="center" width="255"
+                             inlineStyle="background-color:rgb(148,148,148); font-size:large;">
+                    <af:outputText value="#{row.SpecialDetailing}" id="ot58"/>
+                  </af:column>
+                  <af:column sortProperty="YdsStatus" filterable="true"
+                             sortable="true" headerText="Yds Status" id="c13"
+                             align="center" width="255"
+                             inlineStyle="background-color:rgb(148,148,148); font-size:large;">
+                    <af:outputText value="#{row.YdsStatus}" id="ot18"/>
+                  </af:column>
+                  <af:column sortProperty="StyleDescription" filterable="true"
+                             sortable="true" headerText="Style Description"
+                             id="c63" align="center" width="255"
+                             inlineStyle="background-color:rgb(148,148,148); font-size:large;">
+                    <af:outputText value="#{row.StyleDescription}" id="ot53"/>
+                  </af:column>
+                  <af:column sortProperty="Remarks" filterable="true"
+                             sortable="true" headerText="Remarks" id="c49"
+                             align="center" width="255"
+                             inlineStyle="background-color:rgb(148,148,148); font-size:large;">
+                    <af:outputText value="#{row.Remarks}" id="ot33"/>
+                  </af:column>
+                </af:column>
+                <af:column id="c41" headerText="Sent To Wash Info"
+                           align="center">
+                  <af:column sortProperty="SampleSentToWashDate"
+                             filterable="true" sortable="true"
+                             headerText="Sample Sent To Wash Date" id="c22"
+                             align="center" width="255"
+                             inlineStyle="background-color:rgb(181,181,181); font-size:large;">
+                    <f:facet name="filter">
+                      <af:inputDate value="#{vs.filterCriteria.SampleSentToWashDate}"
+                                    id="id8" contentStyle="width:210px;"/>
+                    </f:facet>
+                    <af:outputText value="#{row.SampleSentToWashDate}"
+                                   id="ot54">
+                      <af:convertDateTime pattern="#{bindings.SampleMovementVO1.hints.SampleSentToWashDate.format}"/>
+                    </af:outputText>
+                  </af:column>
+                  <af:column sortProperty="SampleChallanNo" filterable="true"
+                             sortable="true"
+                             headerText="Sample Sent To Wash Challan No."
+                             id="c11" align="center"
+                             inlineStyle="background-color:rgb(181,181,181); font-size:large;"
+                             width="150">
+                    <af:outputText value="#{row.SampleChallanNo}" id="ot66"/>
+                  </af:column>
+                  <af:column sortProperty="WashingUnit" filterable="true"
+                             sortable="true" headerText="Washing Unit" id="c37"
+                             align="center"
+                             inlineStyle="background-color:rgb(181,181,181); font-size:large;"
+                             width="130">
+                    <af:outputText value="#{row.WashingUnit}" id="ot63"/>
+                  </af:column>
+                  <af:column sortProperty="SendQty" filterable="true"
+                             sortable="true"
+                             headerText="Sample Sent To Wash Qty" id="c27"
+                             align="center" width="75"
+                             inlineStyle="background-color:rgb(181,181,181); font-size:large;">
+                    <af:outputText value="#{row.SendQty}" id="ot45"/>
+                  </af:column>
+                  <af:column sortProperty="SampleHalfLeg" filterable="true"
+                             sortable="true"
+                             headerText="Sample Sent To Wash H. Leg Qty"
+                             id="c55" align="center" width="75"
+                             inlineStyle="background-color:rgb(181,181,181); font-size:large;">
+                    <af:outputText value="#{row.SampleHalfLeg}" id="ot23"/>
+                  </af:column>
+                  <af:column sortProperty="SamplePanelQty" filterable="true"
+                             sortable="true"
+                             headerText="Sample Sent To Wash Tube Qty" id="c44"
+                             align="center" width="75"
+                             inlineStyle="background-color:rgb(181,181,181); font-size:large;">
+                    <af:outputText value="#{row.SamplePanelQty}" id="ot24"/>
+                  </af:column>
+                  <af:column sortProperty="SampleRemarks" filterable="true"
+                             sortable="true"
+                             headerText="Sample Sent To Wash Remarks" id="c26"
+                             align="center" width="255"
+                             inlineStyle="background-color:rgb(181,181,181); font-size:large;">
+                    <af:outputText value="#{row.SampleRemarks}" id="ot42"/>
+                  </af:column>
+                </af:column>
+                <af:column id="c48" headerText="Receive From Sample Info"
+                           align="center">
+                  <af:column sortProperty="RevSampleDate" filterable="true"
+                             sortable="true" headerText="Rcv Sample Date"
+                             id="c52" align="center" width="250"
+                             inlineStyle="background-color:rgb(198,198,198); font-size:large;">
+                    <f:facet name="filter">
+                      <af:inputDate value="#{vs.filterCriteria.RevSampleDate}"
+                                    id="id4" contentStyle="width:210px;"/>
+                    </f:facet>
+                    <af:outputText value="#{row.RevSampleDate}" id="ot43">
+                      <af:convertDateTime pattern="#{bindings.SampleMovementVO1.hints.RevSampleDate.format}"/>
+                    </af:outputText>
+                  </af:column>
+                  <af:column sortProperty="RevSampleChalan" filterable="true"
+                             sortable="true" headerText="Rcv Sample Challan No."
+                             id="c53" align="center"
+                             inlineStyle="background-color:rgb(198,198,198); font-size:large;"
+                             width="150">
+                    <af:outputText value="#{row.RevSampleChalan}" id="ot30"/>
+                  </af:column>
+                  <af:column sortProperty="RevSampleQty" filterable="true"
+                             sortable="true" headerText="Rcv Sample Qty"
+                             id="c47" align="center" width="75"
+                             inlineStyle="background-color:rgb(198,198,198); font-size:large;">
+                    <af:outputText value="#{row.RevSampleQty}" id="ot64"/>
+                  </af:column>
+                  <af:column sortProperty="RevSampleHalfLeg" filterable="true"
+                             sortable="true" headerText="Rcv Sample H. Leg Qty"
+                             id="c59" align="center" width="75"
+                             inlineStyle="background-color:rgb(198,198,198); font-size:large;">
+                    <af:outputText value="#{row.RevSampleHalfLeg}" id="ot34"/>
+                  </af:column>
+                  <af:column sortProperty="RevSampleTubeQty" filterable="true"
+                             sortable="true" headerText="Rcv Sample Tube Qty"
+                             id="c54" align="center" width="75"
+                             inlineStyle="background-color:rgb(198,198,198); font-size:large;">
+                    <af:outputText value="#{row.RevSampleTubeQty}" id="ot29"/>
+                  </af:column>
+                </af:column>
+                <af:column id="c65" headerText="Sent To Sample Info"
+                           align="center">
+                  <af:column sortProperty="WashSendToSampleDate"
+                             filterable="true" sortable="true"
+                             headerText="Sent Wash To Sample Date" id="c40"
+                             align="center" width="255"
+                             inlineStyle="background-color:rgb(214,214,214); font-size:large;">
+                    <f:facet name="filter">
+                      <af:inputDate value="#{vs.filterCriteria.WashSendToSampleDate}"
+                                    id="id3" contentStyle="width:210px;"/>
+                    </f:facet>
+                    <af:outputText value="#{row.WashSendToSampleDate}"
+                                   id="ot50">
+                      <af:convertDateTime pattern="#{bindings.SampleMovementVO1.hints.WashSendToSampleDate.format}"/>
+                    </af:outputText>
+                  </af:column>
+                  <af:column sortProperty="WashSendToSampleChallanNo"
+                             filterable="true" sortable="true"
+                             headerText="Sent Wash To Sample Challan No."
+                             id="c28" align="center"
+                             inlineStyle="background-color:rgb(214,214,214); font-size:large;"
+                             width="150">
+                    <af:outputText value="#{row.WashSendToSampleChallanNo}"
+                                   id="ot11"/>
+                  </af:column>
+                  <af:column sortProperty="WashSendToSampleQty"
+                             filterable="true" sortable="true"
+                             headerText="Sent Wash To Sample Qty" id="c46"
+                             align="center" width="75"
+                             inlineStyle="background-color:rgb(214,214,214); font-size:large;">
+                    <af:outputText value="#{row.WashSendToSampleQty}"
+                                   id="ot38"/>
+                  </af:column>
+                  <af:column sortProperty="WashSendToSampleHalfLeg"
+                             filterable="true" sortable="true"
+                             headerText="Sent Wash To Sample H. Leg Qty"
+                             id="c19" align="center" width="75"
+                             inlineStyle="background-color:rgb(214,214,214); font-size:large;">
+                    <af:outputText value="#{row.WashSendToSampleHalfLeg}"
+                                   id="ot21"/>
+                  </af:column>
+                  <af:column sortProperty="WashSendToSampleTube"
+                             filterable="true" sortable="true"
+                             headerText="Sent Wash To Sample Tube Qty" id="c29"
+                             align="center" width="75"
+                             inlineStyle="background-color:rgb(214,214,214); font-size:large;">
+                    <af:outputText value="#{row.WashSendToSampleTube}"
+                                   id="ot39"/>
+                  </af:column>
+                </af:column>
+                <af:column id="c67" headerText="Receive From Wash Info"
+                           align="center">
+                  <af:column sortProperty="RevWashDate" filterable="true"
+                             sortable="true" headerText="Rcv Wash Date" id="c31"
+                             align="center" width="255"
+                             inlineStyle="background-color:rgb(247,247,247); font-size:large;">
+                    <f:facet name="filter">
+                      <af:inputDate value="#{vs.filterCriteria.RevWashDate}"
+                                    id="id7" contentStyle="width:210px;"/>
+                    </f:facet>
+                    <af:outputText value="#{row.RevWashDate}" id="ot19">
+                      <af:convertDateTime pattern="#{bindings.SampleMovementVO1.hints.RevWashDate.format}"/>
+                    </af:outputText>
+                  </af:column>
+                  <af:column sortProperty="RevWashChlNo" filterable="true"
+                             sortable="true" headerText="Rcv Wash Challan No."
+                             id="c43" align="center"
+                             inlineStyle="background-color:rgb(247,247,247); font-size:large;"
+                             width="150">
+                    <af:outputText value="#{row.RevWashChlNo}" id="ot65"/>
+                  </af:column>
+                  <af:column sortProperty="RevWashQty" filterable="true"
+                             sortable="true" headerText="Rcv Wash Qty" id="c18"
+                             align="center" width="75"
+                             inlineStyle="background-color:rgb(247,247,247); font-size:large;">
+                    <af:outputText value="#{row.RevWashQty}" id="ot25"/>
+                  </af:column>
+                  <af:column sortProperty="RevWashHalfLeg" filterable="true"
+                             sortable="true" headerText="Rcv Wash H. Leg Qty"
+                             id="c57" align="center" width="75"
+                             inlineStyle="background-color:rgb(247,247,247); font-size:large;">
+                    <af:outputText value="#{row.RevWashHalfLeg}" id="ot37"/>
+                  </af:column>
+                  <af:column sortProperty="RevWashTube" filterable="true"
+                             sortable="true" headerText="Rcv Wash Tube Qty"
+                             id="c7" align="center" width="75"
+                             inlineStyle="background-color:rgb(247,247,247); font-size:large;">
+                    <af:outputText value="#{row.RevWashTube}" id="ot46"/>
+                  </af:column>
+                </af:column>
+              </af:table>
+            </af:panelCollection>
+          </af:dialog>
+        </af:popup>
+      </af:form>
+    </af:document>
+  </f:view>
+</jsp:root>

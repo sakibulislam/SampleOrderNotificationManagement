@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel"
+                version="11.1.1.62.29" id="CreatePGPageDef"
+                Package="view.pageDefs">
+  <parameters/>
+  <executables>
+    <variableIterator id="variables"/>
+    <iterator Binds="MnjOntSampleStatusLineVO1" RangeSize="25"
+              DataControl="AppModuleDataControl"
+              id="MnjOntSampleStatusLineVO1Iterator"/>
+    <iterator Binds="MnjOntSampleStatusVO1" RangeSize="25"
+              DataControl="AppModuleDataControl"
+              id="MnjOntSampleStatusVO1Iterator"/>
+    <searchRegion Binds="MnjOntSampleStatusLineVO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="MnjOntSampleStatusLineVO1Query"/>
+    <iterator Binds="SeasonLOV1" RangeSize="10"
+              DataControl="AppModuleDataControl" id="SeasonLOV1Iterator"/>
+    <iterator Binds="BuyerLOV1" RangeSize="-1"
+              DataControl="AppModuleDataControl" id="BuyerLOV1Iterator"/>
+    <iterator Binds="SampleMovementVO1" RangeSize="25"
+              DataControl="AppModuleDataControl"
+              id="SampleMovementVO1Iterator"/>
+    <searchRegion Binds="SampleMovementVO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="SampleMovementVO1Query"/>
+    <iterator Binds="MnjCourierInformationVO1" RangeSize="25"
+              DataControl="AppModuleDataControl"
+              id="MnjCourierInformationVO1Iterator"/>
+    <searchRegion Binds="MnjCourierInformationVO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="MnjCourierInformationVO1Query"/>
+  </executables>
+  <bindings>
+    <action IterBinding="MnjOntSampleStatusLineVO1Iterator" id="CreateInsert"
+            RequiresUpdateModel="true" Action="createInsertRow"/>
+    <attributeValues IterBinding="MnjOntSampleStatusVO1Iterator"
+                     id="SampleDocNo">
+      <AttrNames>
+        <Item Value="SampleDocNo"/>
+      </AttrNames>
+    </attributeValues>
+    <listOfValues StaticList="false" IterBinding="MnjOntSampleStatusVO1Iterator"
+                  Uses="LOV_Buyername" id="Buyername"/>
+    <listOfValues StaticList="false" IterBinding="MnjOntSampleStatusVO1Iterator"
+                  Uses="LOV_Season" id="Season"/>
+    <tree IterBinding="MnjOntSampleStatusLineVO1Iterator"
+          id="MnjOntSampleStatusLineVO1">
+      <nodeDefinition DefName="model.view.MnjOntSampleStatusLineVO"
+                      Name="MnjOntSampleStatusLineVO10">
+        <AttrNames>
+          <Item Value="SampleType"/>
+          <Item Value="StyleNumber"/>
+          <Item Value="ItemDescription"/>
+          <Item Value="FabricSupplier"/>
+          <Item Value="FabricReferenceNo"/>
+          <Item Value="ColorWash"/>
+          <Item Value="SizeNumber"/>
+          <Item Value="Qty"/>
+          <Item Value="HalfLegQty"/>
+          <Item Value="Tube"/>
+          <Item Value="Brand"/>
+          <Item Value="EndUser"/>
+          <Item Value="PackageReceivedDate"/>
+          <Item Value="QuotationReqDate"/>
+          <Item Value="BuyerMerchandiser"/>
+          <Item Value="WashReceivedDate"/>
+          <Item Value="LastInfoReceivedDate"/>
+          <Item Value="LastInfo"/>
+          <Item Value="Department"/>
+          <Item Value="Thread"/>
+          <Item Value="Button"/>
+          <Item Value="Rivet"/>
+          <Item Value="SpecialDetailing"/>
+          <Item Value="YdsStatus"/>
+          <Item Value="FabricComposition"/>
+          <Item Value="Width"/>
+          <Item Value="WeightValue"/>
+          <Item Value="WeightType"/>
+          <Item Value="StyleDescription"/>
+          <Item Value="Fabric"/>
+          <Item Value="Mill"/>
+          <Item Value="DesignSheet"/>
+          <Item Value="WashInstruction"/>
+          <Item Value="Remarks"/>
+          <Item Value="SampleDeadlineDate"/>
+          <Item Value="PocketingLeft"/>
+          <Item Value="PocketingRight"/>
+          <Item Value="InsideWb"/>
+          <Item Value="SelectBox" Binds="SelectBox"/>
+          <Item Value="Serial"/>
+          <Item Value="SpecificationPattern"/>
+          <Item Value="Zipper"/>
+          <Item Value="MockupQty"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <attributeValues IterBinding="MnjOntSampleStatusVO1Iterator"
+                     id="CreationDate">
+      <AttrNames>
+        <Item Value="CreationDate"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="MnjOntSampleStatusVO1Iterator"
+                     id="SubmitStatusMessage">
+      <AttrNames>
+        <Item Value="SubmitStatusMessage"/>
+      </AttrNames>
+    </attributeValues>
+    <list IterBinding="MnjOntSampleStatusVO1Iterator" StaticList="false"
+          Uses="LOV_ExcelFormatChoice" id="ExcelFormatChoice"
+          DTSupportsMRU="false"/>
+    <listOfValues StaticList="false" IterBinding="MnjOntSampleStatusVO1Iterator"
+                  Uses="LOV_SendNotificationTo" id="SendNotificationTo"/>
+    <tree IterBinding="SampleMovementVO1Iterator" id="SampleMovementVO1">
+      <nodeDefinition DefName="model.view.SampleMovementVO"
+                      Name="SampleMovementVO10">
+        <AttrNames>
+          <Item Value="HeaderId"/>
+          <Item Value="CustomerName"/>
+          <Item Value="Season"/>
+          <Item Value="SendNotificationTo"/>
+          <Item Value="SampleType"/>
+          <Item Value="StyleNumber"/>
+          <Item Value="SizeNumber"/>
+          <Item Value="Qty"/>
+          <Item Value="HalfLegQty"/>
+          <Item Value="Tube"/>
+          <Item Value="ItemDescription"/>
+          <Item Value="Width"/>
+          <Item Value="FabricComposition"/>
+          <Item Value="PackageReceivedDate"/>
+          <Item Value="Remarks"/>
+          <Item Value="Fabric"/>
+          <Item Value="FabricReferenceNo"/>
+          <Item Value="ColorWash"/>
+          <Item Value="WeightValue"/>
+          <Item Value="WeightType"/>
+          <Item Value="FabricSupplier"/>
+          <Item Value="Brand"/>
+          <Item Value="EndUser"/>
+          <Item Value="BuyerMerchandiser"/>
+          <Item Value="Thread"/>
+          <Item Value="Button"/>
+          <Item Value="Rivet"/>
+          <Item Value="LastInfo"/>
+          <Item Value="SpecialDetailing"/>
+          <Item Value="YdsStatus"/>
+          <Item Value="Department"/>
+          <Item Value="WashInstruction"/>
+          <Item Value="StyleDescription"/>
+          <Item Value="SampleSentToWashDate"/>
+          <Item Value="SampleChallanNo"/>
+          <Item Value="SendQty"/>
+          <Item Value="SampleHalfLeg"/>
+          <Item Value="SamplePanelQty"/>
+          <Item Value="SampleRemarks"/>
+          <Item Value="WashingUnit"/>
+          <Item Value="RevSampleDate"/>
+          <Item Value="RevSampleChalan"/>
+          <Item Value="RevSampleQty"/>
+          <Item Value="RevSampleHalfLeg"/>
+          <Item Value="RevSampleTubeQty"/>
+          <Item Value="WashSendToSampleDate"/>
+          <Item Value="WashSendToSampleChallanNo"/>
+          <Item Value="WashSendToSampleQty"/>
+          <Item Value="WashSendToSampleHalfLeg"/>
+          <Item Value="WashSendToSampleTube"/>
+          <Item Value="RevWashChlNo"/>
+          <Item Value="RevWashDate"/>
+          <Item Value="RevWashQty"/>
+          <Item Value="RevWashHalfLeg"/>
+          <Item Value="RevWashTube"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <tree IterBinding="MnjCourierInformationVO1Iterator"
+          id="MnjCourierInformationVO1">
+      <nodeDefinition DefName="model.view.MnjCourierInformationVO"
+                      Name="MnjCourierInformationVO10">
+        <AttrNames>
+          <Item Value="AwbId"/>
+          <Item Value="CourierId"/>
+          <Item Value="CourierName"/>
+          <Item Value="ImportExport"/>
+          <Item Value="CourierDate"/>
+          <Item Value="Buyer"/>
+          <Item Value="BuyerId"/>
+          <Item Value="DevSampleBulk"/>
+          <Item Value="Unit"/>
+          <Item Value="SenderUnit"/>
+          <Item Value="DeliveryLocation"/>
+          <Item Value="UserName"/>
+          <Item Value="Season"/>
+          <Item Value="StyleNumber"/>
+          <Item Value="BpoNumber"/>
+          <Item Value="ItemCode"/>
+          <Item Value="Qty"/>
+          <Item Value="DocRcvdDate"/>
+          <Item Value="ExpectedDeliveryDate"/>
+          <Item Value="ActualDeliveryDate"/>
+          <Item Value="OrgId"/>
+          <Item Value="SampleDocNo"/>
+          <Item Value="VersionNo"/>
+          <Item Value="VersionDate"/>
+          <Item Value="RespId"/>
+          <Item Value="UserId"/>
+          <Item Value="CreationDate"/>
+          <Item Value="CreatedBy"/>
+          <Item Value="LastUpdateDate"/>
+          <Item Value="LastUpdatedBy"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <action id="Commit" RequiresUpdateModel="true" Action="commitTransaction"
+            DataControl="AppModuleDataControl"/>
+    <action IterBinding="MnjCourierInformationVO1Iterator" id="Delete1"
+            RequiresUpdateModel="false" Action="removeCurrentRow"/>
+    <button IterBinding="MnjOntSampleStatusLineVO1Iterator" id="SelectBox"
+            DTSupportsMRU="false" StaticList="true">
+      <AttrNames>
+        <Item Value="SelectBox"/>
+      </AttrNames>
+      <ValueList>
+        <Item Value="Y"/>
+        <Item Value="N"/>
+      </ValueList>
+    </button>
+    <methodAction id="SelectAllRequisitions"
+                  InstanceName="AppModuleDataControl.dataProvider"
+                  DataControl="AppModuleDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="SelectAllRequisitions"
+                  IsViewObjectMethod="false">
+      <NamedData NDName="flag" NDType="java.lang.String"/>
+    </methodAction>
+    <action IterBinding="MnjOntSampleStatusLineVO1Iterator" id="Delete"
+            RequiresUpdateModel="false" Action="removeCurrentRow"/>
+    <attributeValues IterBinding="MnjOntSampleStatusVO1Iterator" id="Comments">
+      <AttrNames>
+        <Item Value="Comments"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="MnjOntSampleStatusVO1Iterator" id="CreatedBy">
+      <AttrNames>
+        <Item Value="CreatedBy"/>
+      </AttrNames>
+    </attributeValues>
+  </bindings>
+</pageDefinition>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel"
+                version="11.1.1.62.29" id="SearchPGPageDef"
+                Package="view.pageDefs">
+  <parameters/>
+  <executables>
+    <variableIterator id="variables"/>
+    <iterator Binds="MnjOntSampleStatusVO1" RangeSize="25"
+              DataControl="AppModuleDataControl"
+              id="MnjOntSampleStatusVO1Iterator"/>
+    <iterator Binds="SearchView1" RangeSize="25"
+              DataControl="AppModuleDataControl" id="SearchView1Iterator"/>
+    <searchRegion Binds="MnjOntSampleStatusVO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="MnjOntSampleStatusVO1Query"/>
+    <invokeAction id="setSessionValue" Binds="setSessionValues"
+                  Refresh="always"/>
+    <iterator Binds="SampleMovementVO1" RangeSize="25"
+              DataControl="AppModuleDataControl"
+              id="SampleMovementVO1Iterator"/>
+    <searchRegion Binds="SampleMovementVO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="SampleMovementVO1Query"/>
+    <iterator Binds="MnjOntSampleStatusViewOnlyVO1" RangeSize="25"
+              DataControl="AppModuleDataControl"
+              id="MnjOntSampleStatusViewOnlyVO1Iterator"/>
+    <searchRegion Binds="MnjOntSampleStatusViewOnlyVO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="MnjOntSampleStatusViewOnlyVO1Query"/>
+  </executables>
+  <bindings>
+    <listOfValues StaticList="false" IterBinding="SearchView1Iterator"
+                  Uses="LOV_Buyer" id="Buyer"/>
+    <listOfValues StaticList="false" IterBinding="SearchView1Iterator"
+                  Uses="LOV_Season" id="Season"/>
+    <action IterBinding="MnjOntSampleStatusVO1Iterator" id="CreateInsert"
+            RequiresUpdateModel="true" Action="createInsertRow"/>
+    <action IterBinding="MnjOntSampleStatusVO1Iterator" id="Delete"
+            RequiresUpdateModel="false" Action="removeCurrentRow"/>
+    <tree IterBinding="MnjOntSampleStatusVO1Iterator"
+          id="MnjOntSampleStatusVO1">
+      <nodeDefinition DefName="model.view.MnjOntSampleStatusVO"
+                      Name="MnjOntSampleStatusVO10">
+        <AttrNames>
+          <Item Value="Buyername"/>
+          <Item Value="Season"/>
+          <Item Value="SampleDocNo"/>
+          <Item Value="CreationDate"/>
+          <Item Value="CreatedBy"/>
+          <Item Value="LastUpdateDate"/>
+          <Item Value="LastUpdatedBy"/>
+          <Item Value="SendNotificationTo"/>
+          <Item Value="CreatedByUserName"/>
+          <Item Value="LastUpdatedByUserName"/>
+          <Item Value="Style"/>
+          <Item Value="SampleCategory"/>
+          <Item Value="ColorWash"/>
+          <Item Value="SubmitStatusMessage"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <methodAction id="setSessionValues"
+                  InstanceName="AppModuleDataControl.dataProvider"
+                  DataControl="AppModuleDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="setSessionValues"
+                  IsViewObjectMethod="false"
+                  ReturnName="data.AppModuleDataControl.methodResults.setSessionValues_AppModuleDataControl_dataProvider_setSessionValues_result">
+      <NamedData NDName="orgId" NDValue="#{viewScope.OrgId}"
+                 NDType="java.lang.String"/>
+      <NamedData NDName="userId" NDValue="#{viewScope.UserId}"
+                 NDType="java.lang.String"/>
+      <NamedData NDName="respId" NDValue="#{viewScope.RespId}"
+                 NDType="java.lang.String"/>
+      <NamedData NDName="respAppl" NDValue="#{viewScope.RespAppId}"
+                 NDType="java.lang.String"/>
+    </methodAction>
+    <methodAction id="getAttachments"
+                  InstanceName="AppModuleDataControl.dataProvider"
+                  DataControl="AppModuleDataControl" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="getAttachments"
+                  IsViewObjectMethod="false"
+                  ReturnName="data.AppModuleDataControl.methodResults.getAttachments_AppModuleDataControl_dataProvider_getAttachments_result"/>
+    <tree IterBinding="SampleMovementVO1Iterator" id="SampleMovementVO1">
+      <nodeDefinition DefName="model.view.SampleMovementVO"
+                      Name="SampleMovementVO10">
+        <AttrNames>
+          <Item Value="SampleReqNo"/>
+          <Item Value="HeaderId"/>
+          <Item Value="CustomerName"/>
+          <Item Value="Season"/>
+          <Item Value="CreationDate"/>
+          <Item Value="SendNotificationTo"/>
+          <Item Value="SampleType"/>
+          <Item Value="StyleNumber"/>
+          <Item Value="SizeNumber"/>
+          <Item Value="Qty"/>
+          <Item Value="HalfLegQty"/>
+          <Item Value="Tube"/>
+          <Item Value="ItemDescription"/>
+          <Item Value="Width"/>
+          <Item Value="FabricComposition"/>
+          <Item Value="PackageReceivedDate"/>
+          <Item Value="Remarks"/>
+          <Item Value="Fabric"/>
+          <Item Value="FabricReferenceNo"/>
+          <Item Value="ColorWash"/>
+          <Item Value="WeightValue"/>
+          <Item Value="WeightType"/>
+          <Item Value="FabricSupplier"/>
+          <Item Value="Brand"/>
+          <Item Value="EndUser"/>
+          <Item Value="BuyerMerchandiser"/>
+          <Item Value="Thread"/>
+          <Item Value="Button"/>
+          <Item Value="Rivet"/>
+          <Item Value="LastInfo"/>
+          <Item Value="SpecialDetailing"/>
+          <Item Value="YdsStatus"/>
+          <Item Value="Department"/>
+          <Item Value="WashInstruction"/>
+          <Item Value="StyleDescription"/>
+          <Item Value="SampleSentToWashDate"/>
+          <Item Value="SampleChallanNo"/>
+          <Item Value="SendQty"/>
+          <Item Value="SampleHalfLeg"/>
+          <Item Value="SamplePanelQty"/>
+          <Item Value="SampleRemarks"/>
+          <Item Value="WashingUnit"/>
+          <Item Value="RevSampleDate"/>
+          <Item Value="RevSampleChalan"/>
+          <Item Value="RevSampleQty"/>
+          <Item Value="RevSampleHalfLeg"/>
+          <Item Value="RevSampleTubeQty"/>
+          <Item Value="WashSendToSampleDate"/>
+          <Item Value="WashSendToSampleChallanNo"/>
+          <Item Value="WashSendToSampleQty"/>
+          <Item Value="WashSendToSampleHalfLeg"/>
+          <Item Value="WashSendToSampleTube"/>
+          <Item Value="RevWashChlNo"/>
+          <Item Value="RevWashDate"/>
+          <Item Value="RevWashQty"/>
+          <Item Value="RevWashHalfLeg"/>
+          <Item Value="RevWashTube"/>
+          <Item Value="LastInfoReceivedDate"/>
+          <Item Value="CreatedByUserName"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <tree IterBinding="MnjOntSampleStatusViewOnlyVO1Iterator"
+          id="MnjOntSampleStatusViewOnlyVO1">
+      <nodeDefinition DefName="model.view.MnjOntSampleStatusViewOnlyVO"
+                      Name="MnjOntSampleStatusViewOnlyVO10">
+        <AttrNames>
+          <Item Value="SampleDocNo"/>
+          <Item Value="Buyername"/>
+          <Item Value="Season"/>
+          <Item Value="SampleCategory"/>
+          <Item Value="Style"/>
+          <Item Value="ColorWash"/>
+          <Item Value="SendNotificationTo"/>
+          <Item Value="CreationDate"/>
+          <Item Value="CreatedByUserName"/>
+          <Item Value="LastUpdateDate"/>
+          <Item Value="LastUpdatedByUserName"/>
+          <Item Value="SubmitStatusMessage"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+  </bindings>
+</pageDefinition>

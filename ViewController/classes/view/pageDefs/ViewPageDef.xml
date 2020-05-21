@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel"
+                version="11.1.1.62.29" id="ViewPageDef" Package="view.pageDefs">
+  <parameters/>
+  <executables>
+    <variableIterator id="variables"/>
+    <iterator Binds="MnjOntSampleStatusViewOnlyVO1" RangeSize="25"
+              DataControl="AppModuleDataControl"
+              id="MnjOntSampleStatusViewOnlyVO1Iterator"/>
+    <iterator Binds="MnjOntSampleStatusLineVO2" RangeSize="25"
+              DataControl="AppModuleDataControl"
+              id="MnjOntSampleStatusLineVO2Iterator"/>
+    <searchRegion Binds="MnjOntSampleStatusLineVO2Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="MnjOntSampleStatusLineVO2Query"/>
+  </executables>
+  <bindings>
+    <attributeValues IterBinding="MnjOntSampleStatusViewOnlyVO1Iterator"
+                     id="SampleDocNo">
+      <AttrNames>
+        <Item Value="SampleDocNo"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="MnjOntSampleStatusViewOnlyVO1Iterator"
+                     id="Buyername">
+      <AttrNames>
+        <Item Value="Buyername"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="MnjOntSampleStatusViewOnlyVO1Iterator"
+                     id="Season">
+      <AttrNames>
+        <Item Value="Season"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="MnjOntSampleStatusViewOnlyVO1Iterator"
+                     id="SendNotificationTo">
+      <AttrNames>
+        <Item Value="SendNotificationTo"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="MnjOntSampleStatusViewOnlyVO1Iterator"
+                     id="CreationDate">
+      <AttrNames>
+        <Item Value="CreationDate"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="MnjOntSampleStatusViewOnlyVO1Iterator"
+                     id="SubmitStatusMessage">
+      <AttrNames>
+        <Item Value="SubmitStatusMessage"/>
+      </AttrNames>
+    </attributeValues>
+    <tree IterBinding="MnjOntSampleStatusLineVO2Iterator"
+          id="MnjOntSampleStatusLineVO2">
+      <nodeDefinition DefName="model.view.MnjOntSampleStatusLineVO"
+                      Name="MnjOntSampleStatusLineVO20">
+        <AttrNames>
+          <Item Value="SampleType"/>
+          <Item Value="StyleNumber"/>
+          <Item Value="ItemDescription"/>
+          <Item Value="FabricSupplier"/>
+          <Item Value="FabricReferenceNo"/>
+          <Item Value="ColorWash"/>
+          <Item Value="SizeNumber"/>
+          <Item Value="Qty"/>
+          <Item Value="HalfLegQty"/>
+          <Item Value="Tube"/>
+          <Item Value="Brand"/>
+          <Item Value="FabricComposition"/>
+          <Item Value="EndUser"/>
+          <Item Value="SampleDeadlineDate"/>
+          <Item Value="PackageReceivedDate"/>
+          <Item Value="QuotationReqDate"/>
+          <Item Value="BuyerMerchandiser"/>
+          <Item Value="WashReceivedDate"/>
+          <Item Value="LastInfoReceivedDate"/>
+          <Item Value="LastInfo"/>
+          <Item Value="PocketingLeft"/>
+          <Item Value="PocketingRight"/>
+          <Item Value="InsideWb"/>
+          <Item Value="Thread"/>
+          <Item Value="Button"/>
+          <Item Value="Rivet"/>
+          <Item Value="SpecialDetailing"/>
+          <Item Value="YdsStatus"/>
+          <Item Value="Width"/>
+          <Item Value="WeightValue"/>
+          <Item Value="WeightType"/>
+          <Item Value="StyleDescription"/>
+          <Item Value="DesignSheet"/>
+          <Item Value="Remarks"/>
+          <Item Value="SpecificationPattern"/>
+          <Item Value="Zipper"/>
+          <Item Value="Serial"/>
+          <Item Value="MockupQty"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <attributeValues IterBinding="MnjOntSampleStatusViewOnlyVO1Iterator"
+                     id="Comments">
+      <AttrNames>
+        <Item Value="Comments"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="MnjOntSampleStatusViewOnlyVO1Iterator"
+                     id="CreatedByUserName">
+      <AttrNames>
+        <Item Value="CreatedByUserName"/>
+      </AttrNames>
+    </attributeValues>
+  </bindings>
+</pageDefinition>
